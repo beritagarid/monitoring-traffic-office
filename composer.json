@@ -1,0 +1,29 @@
+{
+    "name": "beritagar/api",
+    "description": "Beritagar API",
+    "require": {
+        "slim/slim": "^3.0",
+        "twig/twig": "~1.22",
+        "monolog/monolog": "^1.17",
+        "pear2/net_transmitter": "1.0.0a5",
+        "pear2/net_routeros": "1.0.0b5",
+        "pear2/console_commandline": "^0.2.1",
+        "pear2/console_color": "^1.0"
+    },
+    "autoload": {
+        "classmap": [
+            "apps/controllers"
+        ],
+        "psr-4": {
+            "Beritagar\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "config": {
+        "preferred-install": "dist",
+        "github-oauth": {
+            "github.com": "8771c23c4fa9a30f943fd0be882a0bcb8719e942"
+        },
+        "secure-http" : false
+    }
+}

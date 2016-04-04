@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ server }} - Dashboard</title>
+	<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/luna-styles.css" rel="stylesheet">
+	<link href="css/luna.css" rel="stylesheet">
+	<style type="text/css">
+		.content > div {
+		    opacity: 1;
+		}
+		.content {
+			margin-left: 0px; 
+		}
+		.navbar-default .navbar-brand, .navbar-default .navbar-brand:focus {
+		    width: 200px;
+		    background-color: #FFF;
+		    height: 60px;
+		    padding: 20px 25px;
+		    font-weight: 400;
+		    letter-spacing: 1px;
+		    color: #FFFFFF;
+		}
+	{% for i in 0..50 %}
+		{% if i == 50 %}
+		.score-{{ i }}
+		{% else %}
+		.score-{{ i }}, 
+		{% endif %}
+	{% endfor %}{
+			/*background-color: yellowgreen;*/
+			color: #FFF;
+			padding: 2px 5px 2px 5px;
+			border-radius: 2px;
+		}
+
+	{% for i in 51..70 %}
+		{% if i == 70 %}
+		.score-{{ i }}
+		{% else %}
+		.score-{{ i }}, 
+		{% endif %}
+	{% endfor %}{
+			background-color: yellowgreen;
+			color: #FFF;
+			font-weight: 700;
+			padding: 2px 5px 2px 5px;
+			border-radius: 2px;
+		}
+
+	{% for i in 71..85 %}
+		{% if i == 85 %}
+		.score-{{ i }}
+		{% else %}
+		.score-{{ i }}, 
+		{% endif %}
+	{% endfor %}{
+			background-color: orange;
+			color: #FFF;
+			font-weight: 700;
+			padding: 2px 5px 2px 5px;
+			border-radius: 2px;
+		}
+
+	{% for i in 86..100 %}
+		{% if i == 100 %}
+		.score-{{ i }}
+		{% else %}
+		.score-{{ i }}, 
+		{% endif %}
+	{% endfor %}{
+			background-color: red;
+			color: #FFF;
+			font-weight: 700;
+			padding: 2px 5px 2px 5px;
+			border-radius: 2px;
+		}
+	</style>
+
+	<!--Icons-->
+
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div id="mobile-menu">
+                </div>
+                <a class="navbar-brand" href="/">
+                    <img src="{{ logo }}" alt="{{ server }}" style="margin-top: -8px;">
+                </a>
+            </div>
+        </div>
+    </nav>
+    <section class="content">
+    	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="view-header">
+					<div>
+						<h3 class="m-b-xs">Traffic Monitoring</h3>
+						<small>
+							Monitoring penggunaan bandwidth kantor permasing-masing divisi
+						</small>
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none" id="traffic-ix-upload">
+							0 <span class="slight">0%</span>
+						</h2>
+						<div class="small">IX Upload</div>
+						<div class="slight m-t-sm"> Total: <span class="c-white" id="traffic-ix-upload-total">0</span>  </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none"  id="traffic-ix-download">
+							0 <span class="slight"> 0%</span>
+						</h2>
+						<div class="small">IX Download</div>
+						<div class="slight m-t-sm"> Total: <span class="c-white" id="traffic-ix-download-total">0</span>  </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none" id="traffic-oix-upload">
+							0 <span class="slight">0%</span>
+						</h2>
+						<div class="small">OIX Upload</div>
+						<div class="slight m-t-sm"> Total: <span class="c-white" id="traffic-oix-upload-total">0</span>  </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none"  id="traffic-oix-download">
+							0 <span class="slight"> 0%</span>
+						</h2>
+						<div class="small">OIX Download</div>
+						<div class="slight m-t-sm"> Total: <span class="c-white" id="traffic-oix-download-total">0</span>  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel">
+					<div class="panel-body" style="padding:0px;">
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Divisi</th>
+										<th style="text-align:right;">IX Upload / Download</th>
+										<th style="text-align:right;">OIX Upload / Download</th>
+										<th style="text-align:right;">% IX Upload / Download</th>
+										<th style="text-align:right;">% OIX Upload / Download</th>
+									</tr>
+								</thead>
+								<tbody id="data-divisi">
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    </section>
+	
+	
+	<script type="text/javascript">
+    var socket = io('https://socket.brta.in');
+    socket.on('beritagar_monitoring_mikrotik', function (data) {
+        var parse = JSON.parse(data);
+        $('#traffic-ix-download').html(parse.NONE.TRAFFIC.IX.rate.data.download + ' <span class="slight">'+ parse.NONE.TRAFFIC.IX.avg.download +'%</span>');
+        $('#traffic-ix-upload').html(parse.NONE.TRAFFIC.IX.rate.data.upload + ' <span class="slight">'+ parse.NONE.TRAFFIC.IX.avg.upload +'%</span>');
+        $('#traffic-ix-upload-total').html(parse.NONE.TRAFFIC.IX.traffic.data.upload);
+        $('#traffic-ix-download-total').html(parse.NONE.TRAFFIC.IX.traffic.data.download);
+
+
+        $('#traffic-oix-download').html(parse.NONE.TRAFFIC.OIX.rate.data.download + ' <span class="slight">'+ parse.NONE.TRAFFIC.OIX.avg.download +'%</span>');
+        $('#traffic-oix-upload').html(parse.NONE.TRAFFIC.OIX.rate.data.upload + ' <span class="slight">'+ parse.NONE.TRAFFIC.OIX.avg.upload +'%</span>');
+        $('#traffic-oix-upload-total').html(parse.NONE.TRAFFIC.OIX.traffic.data.upload);
+        $('#traffic-oix-download-total').html(parse.NONE.TRAFFIC.OIX.traffic.data.download);
+        var data = '';
+        $('#data-divisi').html('');
+        jQuery.each( parse.TRAFFIC , function( i, val ) {
+        	var name = val.IX.name;
+        	var target = val.IX.target;
+        	if(name == 'IX-TRAFFIC' || name == 'IX-GUEST' || name == 'IX-MOBILE' ){
+        	}else{
+				$('#data-divisi').append('<tr><td style="font-weight:700"><a href="/divisi/'+ target.replace('.0/25','').replace('.0/24','').replace('.0/26','').replace('.0/27','').replace('.','-').replace('.','-') +'/'+ name.replace('IX-','') +'">'+ name.replace('IX-','') +'</a></td><td  style="text-align:right;"><span class="score-'+ val.IX.avg.upload +'">'+ val.IX.rate.data.upload +'</span> / <span class="score-'+ val.IX.avg.download +'">'+ val.IX.rate.data.download +'</span></td><td style="text-align:right;"><span class="score-'+ val.OIX.avg.upload +'">'+ val.OIX.rate.data.upload +'</span> / <span class="score-'+ val.OIX.avg.download +'">'+ val.OIX.rate.data.download +'</span></td><td style="text-align:right;"><span class="score-'+ val.IX.avg.upload +'" >'+ val.IX.avg.upload +' %</span> / <span class="score-'+ val.IX.avg.download +'">'+ val.IX.avg.download +' %</span></td><td style="text-align:right;"><span class="score-'+ val.OIX.avg.upload +'">'+ val.OIX.avg.upload +' %</span> / <span class="score-'+ val.OIX.avg.download +'" >'+ val.OIX.avg.download +' %</span></td></tr>');
+        	}
+		});
+    });
+</script>
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-apidoc": "^0.10.1"
+  }
+}

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Dashboard</title>
+<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="http://aishek.github.io/jquery-animateNumber/javascripts/jquery.animateNumber.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+
+<!--Icons-->
+<script src="js/lumino.glyphs.js"></script>
+
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+		
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="/index"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+		</ul>
+
+	</div><!--/.sidebar-->
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Dashboard</li>
+			</ol>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">All</h1>
+			</div>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-blue panel-widget ">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked upload"><use xlink:href="#stroked-upload"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="traffic-upload" style="font-size: 21px;">0</div>
+							<div class="text-muted">IX Upload</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-orange panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked download"><use xlink:href="#stroked-download"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="traffic-download" style="font-size: 21px;">0</div>
+							<div class="text-muted">IX Download</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-teal panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked upload"><use xlink:href="#stroked-upload"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="rate-upload" style="font-size: 21px;">0</div>
+							<div class="text-muted">OIX Upload</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-red panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked download"><use xlink:href="#stroked-download"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="rate-download" style="font-size: 21px;">0</div>
+							<div class="text-muted">OIX Download</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% IX Upload</h4>
+						<div class="easypiechart all-blue" id="easypiechart-blue" data-percent="0" >
+							<span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% IX Download</h4>
+						<div class="easypiechart all-orange" id="easypiechart-orange" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% OIX Upload</h4>
+						<div class="easypiechart all-teal" id="easypiechart-teal" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% OIX Download</h4>
+						<div class="easypiechart all-red" id="easypiechart-red" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Marketing</h1>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-blue panel-widget ">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked upload"><use xlink:href="#stroked-upload"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="marketing-upload" style="font-size: 21px;">0</div>
+							<div class="text-muted">IX Upload</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-orange panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked download"><use xlink:href="#stroked-download"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="marketing-download" style="font-size: 21px;">0</div>
+							<div class="text-muted">IX Download</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-teal panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked upload"><use xlink:href="#stroked-upload"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="marketing-oix-upload" style="font-size: 21px;">0</div>
+							<div class="text-muted">OIX Upload</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-6 col-lg-3">
+				<div class="panel panel-red panel-widget">
+					<div class="row no-padding">
+						<div class="col-sm-3 col-lg-5 widget-left">
+							<svg class="glyph stroked download"><use xlink:href="#stroked-download"/></svg>
+						</div>
+						<div class="col-sm-9 col-lg-7 widget-right">
+							<div class="large" id="marketing-oix-download" style="font-size: 21px;">0</div>
+							<div class="text-muted">OIX Download</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+
+		<div class="row">
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% IX Upload</h4>
+						<div class="easypiechart marketing-blue" id="easypiechart-blue" data-percent="0" >
+							<span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% IX Download</h4>
+						<div class="easypiechart marketing-orange" id="easypiechart-orange" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% OIX Upload</h4>
+						<div class="easypiechart marketing-teal" id="easypiechart-teal" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-body easypiechart-panel">
+						<h4>% OIX Download</h4>
+						<div class="easypiechart marketing-red" id="easypiechart-red" data-percent="0" ><span class="percent">0%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+								
+	</div>	<!--/.main-->
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/chart.min.js"></script>
+	<script src="js/chart-data.js"></script>
+	<script src="js/easypiechart.js"></script>
+	<script src="js/easypiechart-data.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script>
+		$('#calendar').datepicker({
+		});
+
+		!function ($) {
+		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
+		        $(this).find('em:first').toggleClass("glyphicon-minus");      
+		    }); 
+		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>	
+	<script>
+    var socket = io('https://socket.brta.in');
+    socket.on('beritagar_monitoring_mikrotik', function (data) {
+        var parse = JSON.parse(data);
+        $('#traffic-download').html(parse.TRAFFIC.IX.rate.data.download);
+        $('#traffic-upload').html(parse.TRAFFIC.IX.rate.data.upload);
+
+        $('#rate-download').html(parse.TRAFFIC.OIX.rate.data.download);
+        $('#rate-upload').html(parse.TRAFFIC.OIX.rate.data.upload);
+
+        $('.all-blue .percent').html(parse.TRAFFIC.IX.avg.upload +'%');
+        $('.all-blue').data('easyPieChart').update(parse.TRAFFIC.IX.avg.upload);
+        $('.all-blue').attr('data-percent',(parse.TRAFFIC.IX.avg.upload));
+
+        $('.all-orange .percent').html(parse.TRAFFIC.IX.avg.download +'%');
+        $('.all-orange').data('easyPieChart').update(parse.TRAFFIC.IX.avg.download);
+        $('.all-orange').attr('data-percent',(parse.TRAFFIC.IX.avg.download));
+
+        $('.all-teal .percent').html(parse.TRAFFIC.OIX.avg.upload +'%');
+        $('.all-teal').data('easyPieChart').update(parse.TRAFFIC.OIX.avg.upload);
+        $('.all-teal').attr('data-percent',(parse.TRAFFIC.OIX.avg.upload));
+
+        $('.all-red .percent').html(parse.TRAFFIC.OIX.avg.download +'%');
+        $('.all-red').data('easyPieChart').update(parse.TRAFFIC.OIX.avg.download);
+        $('.all-red').attr('data-percent',(parse.TRAFFIC.OIX.avg.download));
+
+
+        // MARKETING
+        $('#marketing-download').html(parse.MARKETING.IX.rate.data.download);
+        $('#marketing-upload').html(parse.MARKETING.IX.rate.data.upload);
+
+        $('#marketing-oix-download').html(parse.MARKETING.OIX.rate.data.download);
+        $('#marketing-oix-upload').html(parse.MARKETING.OIX.rate.data.upload);
+
+        $('.marketing-blue .percent').html(parse.MARKETING.IX.avg.upload +'%');
+        $('.marketing-blue').data('easyPieChart').update(parse.MARKETING.IX.avg.upload);
+        $('.marketing-blue').attr('data-percent',(parse.MARKETING.IX.avg.upload));
+
+        $('.marketing-orange .percent').html(parse.MARKETING.IX.avg.download +'%');
+        $('.marketing-orange').data('easyPieChart').update(parse.MARKETING.IX.avg.download);
+        $('.marketing-orange').attr('data-percent',(parse.MARKETING.IX.avg.download));
+
+        $('.marketing-teal .percent').html(parse.MARKETING.OIX.avg.upload +'%');
+        $('.marketing-teal').data('easyPieChart').update(parse.MARKETING.OIX.avg.upload);
+        $('.marketing-teal').attr('data-percent',(parse.MARKETING.OIX.avg.upload));
+
+        $('.marketing-red .percent').html(parse.MARKETING.OIX.avg.download +'%');
+        $('.marketing-red').data('easyPieChart').update(parse.MARKETING.OIX.avg.download);
+        $('.marketing-red').attr('data-percent',(parse.MARKETING.OIX.avg.download));
+    });
+</script>
+</body>
+
+</html>
