@@ -21,9 +21,6 @@
     "minimum-stability": "stable",
     "config": {
         "preferred-install": "dist",
-        "github-oauth": {
-            "github.com": "8771c23c4fa9a30f943fd0be882a0bcb8719e942"
-        },
         "secure-http" : false
     }
 }
