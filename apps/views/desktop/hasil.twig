@@ -53,7 +53,7 @@
 </div>
 
 <script>
-    var socket = io('https://tracker.beritagar.id:3000');
+    var socket = io('http://localhost:8081');
     socket.on('beritagar_monitoring_mikrotik', function (data) {
         var parse = JSON.parse(data);
         $('#traffic-download').html(parse.TRAFFIC.IX.traffic.data.download);

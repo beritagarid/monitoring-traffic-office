@@ -33,7 +33,20 @@ Global configuration path :
 ```sh
 $ cp apps/config/config.sample.php apps/config/config.php
 ```
-### Runnning
+### Runnning 
+
+Backend :
+
+```sh
+$  forever start -c php runner/server.php
+```
+Backend Node :
+
+```sh
+$  forever start socket/index.js
+```
+
+Front End :
 
 ```sh
 $ php server.php

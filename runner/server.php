@@ -19,7 +19,7 @@ function sendMessage($chanel,$message,$encode = true){
         $message = json_encode($message);
     }
     $data = "ch=".$chanel."&msg=".$message;
-    curl_setopt($ch, CURLOPT_URL, 'https://socket.brta.in/notify');
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8081/notify');
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     $ret = curl_exec($ch);
