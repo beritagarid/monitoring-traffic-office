@@ -1,5 +1,5 @@
 # Monitoring Traffic Office - Beritagar
-## Table of contents
+# Table of contents
 1. [Version] (#version)
 2. [Requirements] (#requirements)
 3. [Configuration] (#configuration)
