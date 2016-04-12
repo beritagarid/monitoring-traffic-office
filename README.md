@@ -1,5 +1,7 @@
 # Monitoring Traffic Office - Beritagar
 
+Realtime bandwidth monitoring tool using PHP,Socket.io and MikroTik RouterOS API protocol.
+
 ### Version
 0.1
 
@@ -18,21 +20,32 @@ And itself is open source with a [public repository](https://github.com/beritaga
 
 ### Installation
 
-You need Forever installed globally:
-
-```sh
-$ npm i -g forever
-```
 ```sh
 $ git clone https://github.com/beritagarid/monitoring-traffic-office
 $ cd monitoring-traffic-office
 $ composer install
 ```
+
+Install npm package on folder `socket`
+
+```sh
+$ cd socket/  && npm install
+```
+
+You need Forever installed globally:
+
+```sh
+$ npm i -g forever
+```
+
 ### Configuration
+
 Global configuration path:
+
 ```sh
 $ cp apps/config/config.sample.php apps/config/config.php
 ```
+
 ### Runnning 
 
 Backend:

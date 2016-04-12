@@ -2,3 +2,6 @@ composer.lock
 /vendor/
 .DS_Store
 .idea/
+apps/config/config.php
+/node_modules/
+socket/node_modules/
