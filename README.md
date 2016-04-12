@@ -1,25 +1,26 @@
 # Monitoring Traffic Office - Beritagar
+## Table of contents
+1. [Version] (#Version)
+2. [Requirements] (#Requirements)
+3. [Configuration] (#Configuration)
+4. [Installation] (#Installation)
+5. [Mikrotik] (#Mikrotik)
 
 ### Version
 0.1
 
-### Tech
-
-Dillinger uses a number of open source projects to work properly:
-
-* [Twig](http://twig.sensiolabs.org) - HTML template for web apps!
-* [nodeJS](http://nodejs.org) - socket I/O for the backend
-* [PHP](http://php.net) - using Slim Framework
-* [jQuery] - javascript library
-
-And itself is open source with a [public repository](https://github.com/beritagarid/monitoring-traffic-office)
- on GitHub.
+### Requirements
+* NodeJS 
+* NPM Forever
+* PHP >= 5.5
+* [Composer] (https://getcomposer.org)
 
 ### Configuration
 Global configuration path : 
 ```sh
 $ cp apps/config/config.sample.php apps/config/config.php
 ```
+
 ### Installation
 
 You need Forever installed globally:
@@ -29,14 +30,11 @@ $ npm i -g forever
 ```
 
 ```sh
-$ git clone [git-repo-url] monitoring-traffic-office
+$ git clone https://github.com/beritagarid/monitoring-traffic-office.git
 $ cd monitoring-traffic-office
 $ composer install
 ```
 
-```sh
-$ php server.php
-```
 
 ### MikroTik
 #### Address List
@@ -72,3 +70,25 @@ add action=mark-packet chain=OIX.post connection-mark=oix.conn new-packet-mark=O
 `[local-interface]` = The interface where your client connected to.
 
 `[interface-wan]` = The gateway interface
+
+#### Simple Queue
+We're using prefix {IX|OIX} to split Indonesia (OIX) and International (IX) bandwidth.on simple queue, for example `{IX|OIX}-Traffic` is a group and parent for another child. You can add the other queue below `{IX|OIX}-Traffic`. 
+
+*Example:*
+
+DIAGRAM
+```
+{IX|OIX}-TRAFFIC
+   {IX|OIX}-SALES
+       {IX|OIX}-YOURSALESNAME
+```
+
+CLI
+```
+/queue simple
+add name="{IX|OIX}-TRAFFIC" target=[local-prefix] parent=none packet-marks=IX priority=1/1 queue=default-small/default-small limit-at=0/0 max-limit=10M/22M burst-limit=0/0 burst-threshold=0/0  burst-time=0s/0s 
+add name="{IX|OIX}-SALES" target=[local-prefix] parent=IX-TRAFFIC packet-marks="" priority=8/8 queue=default-small/default-small limit-at=0/0 max-limit=3M/5M burst-limit=0/0 burst-threshold=0/0 burst-time=0s/0s
+add name="{IX|OIX}-YOURSALESNAME" target=[ip-address]/32 parent={IX|OIX}-SALES packet-marks="" priority=8/* queue=default-small/default-small limit-at=0/0 max-limit=3M/5M burst-limit=0/0 burst-threshold=0/0 burst-time=0s/0s 
+```
+
+Don't forget to add the `IX` and `OIX` string, the script are parsing the data from that string.
