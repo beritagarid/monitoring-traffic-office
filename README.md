@@ -20,6 +20,12 @@ And itself is open source with a [public repository](https://github.com/beritaga
 
 ### Installation
 
+```sh
+$ git clone https://github.com/beritagarid/monitoring-traffic-office
+$ cd monitoring-traffic-office
+$ composer install
+```
+
 Install npm package on folder `socket`
 
 ```sh
@@ -31,16 +37,15 @@ You need Forever installed globally:
 ```sh
 $ npm i -g forever
 ```
-```sh
-$ git clone https://github.com/beritagarid/monitoring-traffic-office
-$ cd monitoring-traffic-office
-$ composer install
-```
+
 ### Configuration
+
 Global configuration path:
+
 ```sh
 $ cp apps/config/config.sample.php apps/config/config.php
 ```
+
 ### Runnning 
 
 Backend:
