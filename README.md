@@ -1,10 +1,13 @@
 # Monitoring Traffic Office - Beritagar
 ## Table of contents
-1. [Version] (#Version)
-2. [Requirements] (#Requirements)
-3. [Configuration] (#Configuration)
-4. [Installation] (#Installation)
-5. [Mikrotik] (#Mikrotik)
+1. [Version] (#version)
+2. [Requirements] (#requirements)
+3. [Configuration] (#configuration)
+4. [Installation] (#installation)
+5. [Mikrotik] (#mikrotik)
+6. [Address List] (#address-list)
+7. [Mangle] (#mangle)
+8. [Simple Queue] (#simple-queue)
 
 ### Version
 0.1
