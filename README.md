@@ -29,24 +29,24 @@ $ cd monitoring-traffic-office
 $ composer install
 ```
 ### Configuration
-Global configuration path : 
+Global configuration path:
 ```sh
 $ cp apps/config/config.sample.php apps/config/config.php
 ```
 ### Runnning 
 
-Backend :
+Backend:
 
 ```sh
 $  forever start -c php runner/server.php
 ```
-Backend Node :
+Backend Node:
 
 ```sh
 $  forever start socket/index.js
 ```
 
-Front End :
+Front End:
 
 ```sh
 $ php server.php
