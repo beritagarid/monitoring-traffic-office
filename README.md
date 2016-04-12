@@ -20,6 +20,12 @@ And itself is open source with a [public repository](https://github.com/beritaga
 
 ### Installation
 
+Install npm package on folder `socket`
+
+```sh
+$ cd socket/  && npm install
+```
+
 You need Forever installed globally:
 
 ```sh
