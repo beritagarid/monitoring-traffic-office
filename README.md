@@ -1,5 +1,7 @@
 # Monitoring Traffic Office - Beritagar
 
+Realtime bandwidth monitoring tool using PHP,Socket.io and MikroTik RouterOS API protocol.
+
 ### Version
 0.1
 
