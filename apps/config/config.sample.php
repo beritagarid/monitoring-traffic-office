@@ -8,5 +8,6 @@ $config = array(
     'password' => 'password',
     'logo'     => 'https://beritagar.id/images/logo-beritagar.svg',
     'template' => 'desktop',
-    'server'   => 'Beritagar'
+    'server'   => 'Beritagar',
+    'timezone'  => 'Asia/Jakarta'
 );

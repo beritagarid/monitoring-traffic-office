@@ -7,7 +7,7 @@
  */
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../apps/config/config.php';
-date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set($config['timezone']);
 use PEAR2\Net\RouterOS;
 use Beritagar\Beritagar;
 
