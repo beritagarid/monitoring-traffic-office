@@ -1,4 +1,7 @@
 # MikroTik Monitoring Traffic
+
+Realtime bandwidth monitoring tool using PHP,Socket.io and MikroTik RouterOS API protocol.
+
 # Table of contents
 - [Changelog] (#changelog)
 - [Requirements] (#requirements)
