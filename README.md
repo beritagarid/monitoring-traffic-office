@@ -1,19 +1,29 @@
 # Monitoring Traffic Office - Beritagar
 # Table of contents
-1. [Version] (#version)
-2. [Requirements] (#requirements)
-3. [Configuration] (#configuration)
-4. [Installation] (#installation)
-5. [Mikrotik] (#mikrotik)
-6. [Address List] (#address-list)
-7. [Mangle] (#mangle)
-8. [Simple Queue] (#simple-queue)
+- [Version] (#version)
+- [Changelog] (#changelog)
+- [Requirements] (#requirements)
+- [Configuration] (#configuration)
+- [Installation] (#installation)
+- [Running] (#running)
+- [Mikrotik] (#mikrotik)
+- [Address List] (#address-list)
+- [Mangle] (#mangle)
+- [Simple Queue] (#simple-queue)
 
 ### Version
 0.1
 
+### Changelog
+0.2				September 15, 2016
+- Feature: Add interface monitoring
+  (Supports only 2 interface, WAN & LAN)
+
+0.1				April 12, 2016
+- Initial Release
+
 ### Requirements
-* NodeJS 
+* NPM
 * NPM Forever
 * PHP >= 5.5
 * [Composer] (https://getcomposer.org)
@@ -25,6 +35,12 @@ $ cp apps/config/config.sample.php apps/config/config.php
 ```
 
 ### Installation
+
+Install npm package on folder `socket`
+
+```sh
+cd socket/  && npm install
+```
 
 You need Forever installed globally:
 
@@ -38,6 +54,19 @@ $ cd monitoring-traffic-office
 $ composer install
 ```
 
+### Running
+
+Backend:
+
+```
+$ forever start -s -c php runner/server.php
+```
+
+Backend Node:
+
+```
+$ forever start -s socket/index.js
+```
 
 ### MikroTik
 #### Address List
@@ -94,4 +123,4 @@ add name="{IX|OIX}-SALES" target=[local-prefix] parent=IX-TRAFFIC packet-marks="
 add name="{IX|OIX}-YOURSALESNAME" target=[ip-address]/32 parent={IX|OIX}-SALES packet-marks="" priority=8/* queue=default-small/default-small limit-at=0/0 max-limit=3M/5M burst-limit=0/0 burst-threshold=0/0 burst-time=0s/0s 
 ```
 
-Don't forget to add the `IX` and `OIX` string, the script are parsing the data from that string.
+Don't forget to add the `IX` and `OIX` string, the apps are parsing the data from that string.
