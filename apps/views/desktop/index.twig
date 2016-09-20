@@ -296,7 +296,7 @@
 		})
 	</script>	
 	<script>
-    var socket = io('http://localhost:8081');
+    var socket = io('{{ socket_host }}');
     socket.on('beritagar_monitoring_mikrotik', function (data) {
         var parse = JSON.parse(data);
         $('#traffic-download').html(parse.TRAFFIC.IX.rate.data.download);

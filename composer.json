@@ -8,7 +8,8 @@
         "pear2/net_transmitter": "1.0.0a5",
         "pear2/net_routeros": "1.0.0b5",
         "pear2/console_commandline": "^0.2.1",
-        "pear2/console_color": "^1.0"
+        "pear2/console_color": "^1.0",
+	"slim/http-cache": "^0.3.0"
     },
     "autoload": {
         "classmap": [
@@ -18,7 +19,6 @@
             "Beritagar\\": "src/"
         }
     },
-    "minimum-stability": "stable",
     "config": {
         "preferred-install": "dist",
         "secure-http" : false

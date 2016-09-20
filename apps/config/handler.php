@@ -13,7 +13,7 @@ $container['errorHandler'] = function ($c) use ($beritagar) {
     return function (\Psr\Http\Message\RequestInterface $request, $response, Exception $exception) use ($c,$beritagar) {
         \Beritagar\Log::init('app')->addError($exception->getMessage(),array(
             'url' => (string) $request->getUri()->getPath(),
-            'device' => \Beritagar\Device::detect()
+            // 'device' => \Beritagar\Device::detect()
         ));
         echo $exception->getMessage();
         return $c['response']->withStatus(500)

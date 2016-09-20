@@ -191,7 +191,7 @@
 	
 	
 	<script type="text/javascript">
-		var socket = io('http://localhost:8081');
+		var socket = io('{{ socket_host }}');
 		socket.on('beritagar_monitoring_mikrotik', function (data) {
 			var parse = JSON.parse(data);
 			$('#traffic-ix-download').html(parse.TRAFFIC.{{ name }}.IX.rate.data.download + ' <span class="slight">'+ parse.TRAFFIC.{{ name }}.IX.avg.download +'%</span>');
