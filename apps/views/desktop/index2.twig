@@ -9,7 +9,6 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/luna-styles.css" rel="stylesheet">
 	<link href="css/luna.css" rel="stylesheet">
-	<link rel="icon" href="img/favicon.png" sizes="16x16">
 	<style type="text/css">
 		.content > div {
 		    opacity: 1;
@@ -118,6 +117,44 @@
 				<hr>
 			</div>
 		</div>
+
+		{# start #}
+		<div class="row">
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none" id="traffic-wan-upload">0</h2>
+						<div class="small">Interface Upload WAN (<span id='interface-wan-upload' style="color:#FFF"></span>)</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none"  id="traffic-wan-download">0</h2>
+						<div class="small">Interface Download WAN (<span id='interface-wan-download' style="color:#FFF"></span>)</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none" id="traffic-lan-upload">0</h2>
+						<div class="small">Interface Upload LAN (<span id='interface-lan-upload' style="color:#FFF"></span>)</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<div class="panel panel-filled">
+					<div class="panel-body">
+						<h2 class="m-b-none"  id="traffic-lan-download">0</h2>
+						<div class="small">Interface Download LAN (<span id='interface-lan-download' style="color:#FFF"></span>)</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# end #}
+
 		<div class="row">
 			<div class="col-lg-3 col-xs-6">
 				<div class="panel panel-filled">
@@ -192,7 +229,8 @@
 	
 	
 	<script type="text/javascript">
-    var socket = io('https://localhost:8081');
+
+    var socket = io('{{ socket_host }}');
     socket.on('beritagar_monitoring_mikrotik', function (data) {
         var parse = JSON.parse(data);
         $('#traffic-ix-download').html(parse.NONE.TRAFFIC.IX.rate.data.download + ' <span class="slight">'+ parse.NONE.TRAFFIC.IX.avg.download +'%</span>');
@@ -215,6 +253,18 @@
 				$('#data-divisi').append('<tr><td style="font-weight:700"><a href="/divisi/'+ target.replace('.0/25','').replace('.0/24','').replace('.0/26','').replace('.0/27','').replace('.','-').replace('.','-') +'/'+ name.replace('IX-','') +'">'+ name.replace('IX-','') +'</a></td><td  style="text-align:right;"><span class="score-'+ val.IX.avg.upload +'">'+ val.IX.rate.data.upload +'</span> / <span class="score-'+ val.IX.avg.download +'">'+ val.IX.rate.data.download +'</span></td><td style="text-align:right;"><span class="score-'+ val.OIX.avg.upload +'">'+ val.OIX.rate.data.upload +'</span> / <span class="score-'+ val.OIX.avg.download +'">'+ val.OIX.rate.data.download +'</span></td><td style="text-align:right;"><span class="score-'+ val.IX.avg.upload +'" >'+ val.IX.avg.upload +' %</span> / <span class="score-'+ val.IX.avg.download +'">'+ val.IX.avg.download +' %</span></td><td style="text-align:right;"><span class="score-'+ val.OIX.avg.upload +'">'+ val.OIX.avg.upload +' %</span> / <span class="score-'+ val.OIX.avg.download +'" >'+ val.OIX.avg.download +' %</span></td></tr>');
         	}
 		});
+    });
+    socket.on('beritagar_monitoring_mikrotik_interface', function (data) {
+    	var parse = JSON.parse(data);
+    	$('#interface-wan-upload').html(parse[0].name);
+    	$('#traffic-wan-upload').html(parse[0]['tx-bits-per-second']);
+    	$('#interface-wan-download').html(parse[0].name);
+    	$('#traffic-wan-download').html(parse[0]['rx-bits-per-second']);
+
+    	$('#interface-lan-upload').html(parse[1].name);
+    	$('#traffic-lan-upload').html(parse[1]['tx-bits-per-second']);
+    	$('#interface-lan-download').html(parse[1].name);
+    	$('#traffic-lan-download').html(parse[1]['rx-bits-per-second']);
     });
 </script>
 	</script>

@@ -4,18 +4,14 @@ use PEAR2\Net\RouterOS;
 class MikrotikController {
     private static $beritagar;
 
-    public function __construct(\Beritagar\Beritagar $beritagar)
+    public function __construct($beritagar)
     {
         self::$beritagar = $beritagar;
     }
 
     public function index(){
-        $client = new RouterOS\Client('103.52.2.6', 'monitoring', 'beritagar');
-
+	$client = new RouterOS\Client(self::$beritagar['host'], self::$beritagar['username'], self::$beritagar['password']);
         $request = new RouterOS\Request('/queue simple print');
-
-//        $query = RouterOS\Query::where('name', 'IX-PRODUK');
-//        $request->setQuery($query);
 
         $responses = $client->sendSync($request);
         $data = array();
@@ -77,13 +73,9 @@ class MikrotikController {
         return $data_new;
     }
     public function listIp($divisi = null){
-        $client = new RouterOS\Client('103.52.2.6', 'monitoring', 'beritagar');
-       // $request = new RouterOS\Request('/ip arp print');
-       $request = new RouterOS\Request('/ip dhcp-server lease print');
-        // $request = new RouterOS\Request('/tool torch interface=ether3 scr-address=10.20.20.2');
+	$client = new RouterOS\Client(self::$beritagar['host'], self::$beritagar['username'], self::$beritagar['password']);
+      	$request = new RouterOS\Request('/ip dhcp-server lease print');
 
-        // $query = RouterOS\Query::where('interface', 'ether3');//->andWhere('interface', 'ether3');
-        // $request->setQuery($query);
         $responses = $client->sendSync($request);
         $data = array();
         foreach ($responses as $key => $response) {
@@ -141,5 +133,50 @@ class MikrotikController {
             'download-byte' => (int)$data[1],
         ];
         return $result;
+    }
+}
+
+    public function convertBPS($download = null){
+
+        if($download/1024/1024/1024/1024 > 1){
+            $download = number_format($download/1024/1024/1024/1024,2) .'TB';
+        }elseif($download/1024/1024/1024 > 1){
+            $download = number_format($download/1024/1024/1024,2) .'GB';
+        }elseif($download/1024/1024 > 1){
+            $download = number_format($download/1024/1024,2) .'MB';
+        }elseif($download/1024 > 1){
+            $download = number_format($download/1024,2) .'KB';
+        }elseif($download > 1){
+            $download = number_format($download,2).'B';
+        }
+        
+        return $download;
+    }
+
+    public function monitoringInterface(){
+        if(self::$beritagar['interface_monitor']){
+            $client = new RouterOS\Client(self::$beritagar['host'], self::$beritagar['username'], self::$beritagar['password']);
+
+            $srequest = new RouterOS\Request('/interface monitor-traffic interface='.self::$beritagar['interface'].' once');
+            $responses = $client->sendSync($srequest);
+
+            
+            foreach ($responses as $key => $response) {
+                $data = array();
+                foreach ($response as $name => $value) {
+                    if(is_numeric($value)){
+                        $data[$name] = self::convertBPS($value);    
+                    }else{
+                        $data[$name] = $value;
+                    }
+                    
+                }
+                $simpan[$key] = $data;
+            }
+            return $simpan;
+        }else{
+            return false;
+        }
+        
     }
 }

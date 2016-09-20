@@ -46,6 +46,15 @@ $app->get('/mikrotik',function (\Slim\Http\Request $request, \Slim\Http\Response
     return $response->write($view);
 });
 
+$app->get('/mikrotik/monitoring/interface',function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) use ($app,$beritagar){
+    $controller = new \MikrotikController($beritagar::$config);
+    $response = $response->withHeader('Content-type', 'application/json');
+
+    $return = $controller->monitoringInterface();
+    $view = json_encode($return,JSON_NUMERIC_CHECK);
+    return $response->write($view);
+});
+
 
 
 
